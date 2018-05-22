@@ -29,7 +29,7 @@ type Props = {};
 
 async function requestStoragePermission() {
     try {
-        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+        const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE);
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             console.log("You can use the storage")
         } else {
@@ -53,7 +53,8 @@ export default class App extends Component<Props> {
     }
 
     componentDidMount() {
-        requestStoragePermission();
+        if (Platform.OS === 'android')
+            requestStoragePermission();
     }
 
     onNavigationStateChange(event) {

@@ -8,21 +8,12 @@ describe('Example', () => {
     it('should click on upload button', async () => {
         //await element(by.type('UIView')).tap();
 
-        //await expect(element(by.id('MyContainer'))).toBeVisible();
         await expect(element(by.type('UIWebBrowserView'))).toBeVisible();
-        //await expect(element(by.type('UIWebBrowserView'))).toHaveText('Upload');
-        //await expect(element(by.label("Upload \\n"))).toBeVisible();
+
+        //click upload button
         await element(by.type('UIWebBrowserView')).tapAtPoint({x:15,y:15});
-        //await element(by.type('UIWebBrowserView')).tapAtPoint({x:15,y:28});
-        //await element(by.type('UIWebBrowserView')).tap();
-        /*await expect(element(by.type('UIView')).atIndex(0)).toBeVisible();
-        await expect(element(by.type('UIView')).atIndex(0)).toBeVisible();
-        await expect(element(by.type('UIView')).atIndex(0)).toBeVisible();
-        await expect(element(by.type('UIView')).atIndex(0)).toBeVisible();
-        await expect(element(by.type('UIView')).atIndex(0)).toBeVisible();*/
 
         await timeout(2000);
-        //await element(by.id('MyContainer')).tapAtPoint({x:70,y:530});
 
     });
 
