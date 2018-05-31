@@ -22,14 +22,13 @@ import {
 //var { StyleSheet } = React;
 
 var WebViewAndroid = require('react-native-webview-android');
-
-var SITE_URL = "http://192.168.1.3:5000/";
-const SOURCE_DEFAULT = {uri:SITE_URL,method:"GET"};
-
-//var SITE_URL = "https://fierce-fortress-80373.herokuapp.com/";
+//var SITE_URL = "http://192.168.1.3:5000/";
+var SITE_URL = "https://fierce-fortress-80373.herokuapp.com/";
+const SOURCE_DEFAULT = {uri: SITE_URL, method: "GET"};
 
 var FormData = require('form-data');
 import axios from 'axios';
+
 var instance = axios.create({
     baseURL: SITE_URL,
     timeout: 20000,
@@ -38,7 +37,6 @@ var instance = axios.create({
         "Connection": "keep-alive"
     }
 });
-
 
 
 type Props = {};
@@ -61,7 +59,7 @@ export default class App extends Component<Props> {
     state = {
         state: 'init',
         result: 'init',
-        source:SOURCE_DEFAULT
+        source: SOURCE_DEFAULT
     }
 
     constructor() {
@@ -78,28 +76,10 @@ export default class App extends Component<Props> {
     onNavigationStateChange(event) {
         //At navigation change event, I check page title, url, and navigationType... to determine what is current page
         if (Platform.OS === 'android') {
-            if (event.title.includes('fileupload') && !event.url.includes('fileupload') && event.loading === true) {
-                this.webview.stopLoading();
-                Linking.canOpenURL(event.url).then(supported => {
-                    if (supported) {
-                        Linking.openURL(event.url);
-                    } else {
-                        console.log("Don't know how to open URI: " + this.props.url);
-                    }
-                });
-            }
+
         } else {
-            if (event.url.includes('fileupload') && typeof(event.navigationType) === 'undefined') {
-                //mean upload process don ( can be error or success )
-                let result = 'success';
-                if (event.title === 'Error')
-                    result = 'fail'
-                this.setState({
-                    state: 'uploadDone',
-                    result: result
-                })
-            }
-            if (!event.url.includes('fileupload') && event.url.length > SITE_URL.length && event.navigationType === 'click') {
+            if (event.navigationType === "click") {
+                //this mean open link
                 //mean user click on file link
                 this.webview.stopLoading();
                 //open link on native browser if support
@@ -117,7 +97,6 @@ export default class App extends Component<Props> {
 
 
     render() {
-
 
 
         if (Platform.OS === 'android')
@@ -144,37 +123,37 @@ export default class App extends Component<Props> {
                     }}
                     javaScriptEnabled={true}
                     geolocationEnabled={false}
-                    //onNavigationStateChange={this.onNavigationStateChange}
+                    onNavigationStateChange={this.onNavigationStateChange}
                     builtInZoomControls={false}
                     source={this.state.source}
                     //url={SITE_URL}
                     style={styles.container}/>
-                <Button testID={'buttonPostUpload'} onPress={()=>{
+                <Button testID={'buttonPostUpload'} onPress={() => {
                     const form = new FormData();
-                    form.append("filetoupload",{
+                    form.append("filetoupload", {
                         uri: "https://facebook.github.io/react-native/docs/assets/favicon.png",
                         type: 'image/png', // or photo.type
                         name: 'favicon.png'
                     });
-                    instance.post('fileupload',form, {
+                    instance.post('fileupload', form, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         },
-                    }).then((res)=>{
+                    }).then((res) => {
                         console.log(res);
                         let result = 'success';
-                        if(!res.data.includes("File path is")){
+                        if (!res.data.includes("File path is")) {
                             result = 'fail'
                         }
                         this.setState({
                             state: 'uploadDone',
                             result: result,
-                            source:{html:res.data}
+                            source: {html: res.data}
                         })
-                    }).catch((err)=>{
+                    }).catch((err) => {
                         console.log(err);
                     })
-                }} title={'Test'}/>
+                }} title={''}/>
                 <Text style={styles.hidden} testID={'MyStateText'}>{this.state.state}</Text>
                 <Text style={styles.hidden} testID={'MyResultText'}>{this.state.result}</Text>
 

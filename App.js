@@ -126,7 +126,6 @@ export default class App extends Component<Props> {
                     builtInZoomControls={false}
                     url={SITE_URL} // or use the source(object) attribute...
                     style={styles.container}/>
-                <Button testID={'button321'} title={'Test'}/>
                 <Text style={styles.hidden} testID={'MyStateText'}>{this.state.state}</Text>
                 <Text style={styles.hidden} testID={'MyResultText'}>{this.state.result}</Text>
 

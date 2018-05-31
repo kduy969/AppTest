@@ -7,7 +7,7 @@ describe('Example', () => {
 
     it('should click on upload button', async () => {
         //await element(by.type('UIView')).tap();
-
+        await timeout(3000);
         await expect(element(by.type('UIWebBrowserView'))).toBeVisible();
 
         //click upload button
@@ -22,13 +22,13 @@ describe('Example', () => {
         await expect(element(by.text('Cancel'))).toBeVisible();
     });
 
-    it('should upload file', async () => {
+    it('should pick and upload file', async () => {
+        //because we can't pick file , just cancel the dialog
         await element(by.text('Cancel')).tap();
         await timeout(2000);
 
-        //click upload button
+        //click upload button to send file to server, by pass pick file step
         await element(by.id('buttonPostUpload')).tap();
-
         await waitFor(element(by.id('MyStateText'))).toHaveText('uploadDone').withTimeout(20000);
 
     });
