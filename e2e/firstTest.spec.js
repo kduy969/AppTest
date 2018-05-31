@@ -17,24 +17,27 @@ describe('Example', () => {
 
     });
 
+    it('should open file picker', async () => {
+        await waitFor(element(by.text('Cancel'))).toBeVisible().withTimeout(4000);
+        await expect(element(by.text('Cancel'))).toBeVisible();
+    });
 
-    it('should click on picker', async () => {
+    it('should upload file', async () => {
+        await element(by.text('Cancel')).tap();
+        await timeout(2000);
+
+        //click upload button
+        await element(by.id('buttonPostUpload')).tap();
+
+        await waitFor(element(by.id('MyStateText'))).toHaveText('uploadDone').withTimeout(20000);
+
+    });
+
+
+    /*it('should click on picker', async () => {
         //because I can't procedure click on picker event, let wait for 5sec,
         // in that time we need to manually click on Photo Library option form picker
         await timeout(5000);
-
-        //await expect(element(by.text('Browse'))).toBeVisible();
-        //await element(by.traits(['button']).and(by.label('Cancel'))).tap();
-        //await element(by.type('_UIDocumentPickerRemoteViewControllerTintColorView')).atIndex(1).tapAtPoint({x:15,y:35});
-        /*await element(by.type('_UIAlertControllerShadowedScrollView')).tapAtPoint({x:150,y:20});
-        await element(by.type('_UIAlertControllerShadowedScrollView')).tapAtPoint({x:150,y:20});
-        await element(by.type('_UIAlertControllerShadowedScrollView')).tapAtPoint({x:150,y:20});
-        await element(by.type('_UIAlertControllerShadowedScrollView')).tapAtPoint({x:150,y:20});
-        await element(by.type('_UIAlertControllerShadowedScrollView')).tapAtPoint({x:150,y:20});*/
-        //await element(by.type('_UIAlertControllerShadowedScrollView')).longPress(5000);
-        //await element(by.type('UITransitionView')).tapAtPoint({x:150,y:520});
-        //await element(by.type('_UITextEffectsRemoteView')).atIndex(1).tap();
-        //await expect(element(by.type('_UIRemoteView')).atIndex(3)).toBeVisible();
 
     });
 
@@ -45,7 +48,7 @@ describe('Example', () => {
     });
 
     it('should click on photo', async () => {
-        // select first image
+         // select first image
         await element(by.type('PUPhotoView')).atIndex(0).tap();
         await timeout(2000);
     });
@@ -55,7 +58,7 @@ describe('Example', () => {
         await element(by.type('UIWebBrowserView')).tapAtPoint({x:15,y:28});
         //wait for upload done
         await waitFor(element(by.id('MyStateText'))).toHaveText('uploadDone').withTimeout(20000);
-    });
+    });*/
 
     it('should render link', async () => {
         //recheck upload and result

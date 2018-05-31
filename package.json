@@ -8,10 +8,13 @@
     "debug": "adb shell input keyevent 82"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "form-data": "^2.3.2",
     "react": "16.0.0",
-    "react-native": "0.50.0-rc.2",
+    "react-native": "0.55",
     "react-native-drawer": "^2.5.0",
     "react-native-maps": "^0.17.0",
+    "react-native-repackager": "^0.51.1",
     "react-native-sound": "^0.10.4",
     "react-native-vector-icons": "^4.4.2",
     "react-native-webview-android": "^1.1.16",
