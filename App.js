@@ -21,7 +21,8 @@ import {
 
 //var { StyleSheet } = React;
 
-var WebViewAndroid = require('react-native-webview-android');
+import AndroidWebView from 'react-native-webview-android'
+//var WebViewAndroid = require('react-native-webview-android');
 
 var SITE_URL = "https://fierce-fortress-80373.herokuapp.com/";
 
@@ -60,16 +61,18 @@ export default class App extends Component<Props> {
     onNavigationStateChange(event) {
         //At navigation change event, I check page title, url, and navigationType... to determine what is current page
         if (Platform.OS === 'android') {
-            if (event.title.includes('fileupload') && !event.url.includes('fileupload') && event.loading === true) {
-                this.webview.stopLoading();
-                Linking.canOpenURL(event.url).then(supported => {
-                    if (supported) {
-                        Linking.openURL(event.url);
-                    } else {
-                        console.log("Don't know how to open URI: " + this.props.url);
-                    }
-                });
-            }
+
+            if (!event.url.includes('fileupload') && event.url.length > SITE_URL.length && event.loading === true) {
+                    this.webview.stopLoading();
+                    Linking.canOpenURL(event.url).then(supported => {
+                        if (supported) {
+                            Linking.openURL(event.url);
+                        } else {
+                            console.log("Don't know how to open URI: " + this.props.url);
+                        }
+                    });
+                }
+
         } else {
             if (event.url.includes('fileupload') && typeof(event.navigationType) === 'undefined') {
                 //mean upload process don ( can be error or success )
@@ -100,7 +103,7 @@ export default class App extends Component<Props> {
     render() {
         if (Platform.OS === 'android')
             return (
-                <WebViewAndroid
+                <AndroidWebView
                     testID={'MyWebView123'}
                     ref={(ref) => {
                         this.webview = ref;
