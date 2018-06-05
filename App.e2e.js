@@ -21,7 +21,7 @@ import {
 
 //var { StyleSheet } = React;
 
-var WebViewAndroid = require('react-native-webview-android');
+import AndroidWebView from 'react-native-webview-android'
 //var SITE_URL = "http://192.168.1.3:5000/";
 var SITE_URL = "https://fierce-fortress-80373.herokuapp.com/";
 const SOURCE_DEFAULT = {uri: SITE_URL, method: "GET"};
@@ -76,6 +76,27 @@ export default class App extends Component<Props> {
     onNavigationStateChange(event) {
         //At navigation change event, I check page title, url, and navigationType... to determine what is current page
         if (Platform.OS === 'android') {
+            if (event.url.includes('fileupload') && event.loading === false) {
+                //mean upload process done ( can be error or success )
+                let result = 'success';
+                if (event.title === 'Error')
+                    result = 'fail'
+                this.setState({
+                    state: 'uploadDone',
+                    result: result
+                })
+            }
+
+            if (!event.url.includes('fileupload') && event.url.length > SITE_URL.length && event.loading === true) {
+                this.webview.stopLoading();
+                Linking.canOpenURL(event.url).then(supported => {
+                    if (supported) {
+                        Linking.openURL(event.url);
+                    } else {
+                        console.log("Don't know how to open URI: " + this.props.url);
+                    }
+                });
+            }
 
         } else {
             if (event.navigationType === "click") {
@@ -101,7 +122,7 @@ export default class App extends Component<Props> {
 
         if (Platform.OS === 'android')
             return (
-                <WebViewAndroid
+                <AndroidWebView
                     testID={'MyWebView123'}
                     ref={(ref) => {
                         this.webview = ref;
